@@ -134,40 +134,6 @@ function registerFormatProviders(context: vscode.ExtensionContext) {
 			},
 		),
 	);
-
-	// Register document range formatting provider
-	context.subscriptions.push(
-		vscode.languages.registerDocumentRangeFormattingEditProvider(
-			{ pattern: "**/*" }, // Match all files
-			{
-				async provideDocumentRangeFormattingEdits(
-					document: vscode.TextDocument,
-					range: vscode.Range,
-				): Promise<vscode.TextEdit[]> {
-					log(`Range formatting requested for: ${document.fileName}`);
-
-					if (!useStdin) {
-						log("Using legacy mode - formatting file on disk");
-						// In legacy mode, run treefmt on the file directly
-						// Note: This will format the entire file, not just the range
-						await runTreefmtOnFile(ctx);
-						return [];
-					}
-
-					// Stdin mode - get formatted text and apply as edit
-					const formattedText = await getFormattedTextFromTreefmt(
-						ctx,
-						document.getText(range),
-					);
-					if (formattedText === null) {
-						return [];
-					}
-
-					return [vscode.TextEdit.replace(range, formattedText)];
-				},
-			},
-		),
-	);
 }
 
 export function deactivate() {
