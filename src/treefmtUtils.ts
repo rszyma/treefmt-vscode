@@ -18,27 +18,6 @@ async function getWorkspaceRoot() {
 	return workspaceFolders[0].uri.fsPath;
 }
 
-export async function initTreefmt(ctx: vscode.ExtensionContext) {
-	const workspaceRoot = await getWorkspaceRoot();
-	if (!workspaceRoot) {
-		vscode.window.showInformationMessage("No workspace root found.");
-		return;
-	}
-
-	await readConfig(ctx);
-	log(`Using treefmt command: ${command}`);
-
-	log(`Running: ${command} --init in ${workspaceRoot}`);
-	exec(`${command} --init`, { cwd: workspaceRoot }, (error) => {
-		if (error) {
-			log(`Error running ${command} --init: ${error.message}`);
-			vscode.window.showErrorMessage(`Error running ${command} --init`);
-		} else {
-			vscode.window.showInformationMessage("Created treefmt.toml");
-		}
-	});
-}
-
 export async function runTreefmtOnFile(
 	ctx: vscode.ExtensionContext,
 ): Promise<void> {
@@ -101,12 +80,7 @@ export async function runTreefmtOnFile(
 					`Error running ${command}: ${stderr}`,
 					"OK",
 					"Create treefmt.toml",
-				)
-				.then((selection) => {
-					if (selection === "Create treefmt.toml") {
-						initTreefmt(ctx);
-					}
-				});
+				);
 			return;
 		}
 

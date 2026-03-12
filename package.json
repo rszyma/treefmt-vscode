@@ -22,10 +22,6 @@
 				"title": "Run Treefmt"
 			},
 			{
-				"command": "extension.initTreefmt",
-				"title": "Initialize treefmt.toml configuration"
-			},
-			{
 				"command": "extension.runTreefmtWithStdin",
 				"title": "Run Treefmt with Stdin"
 			}

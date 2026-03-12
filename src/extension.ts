@@ -1,7 +1,6 @@
 import * as vscode from "vscode";
 import {
 	getFormattedTextFromTreefmt,
-	initTreefmt,
 	runTreefmtOnFile,
 	runTreefmtWithStdin,
 } from "./treefmtUtils";
@@ -55,9 +54,6 @@ export function activate(context: vscode.ExtensionContext) {
 			// This explicit command should always run treefmt in legacy mode
 			return runTreefmtOnFile(ctx);
 		}),
-		vscode.commands.registerCommand("extension.initTreefmt", () =>
-			initTreefmt(ctx),
-		),
 		vscode.commands.registerCommand("extension.runTreefmtWithStdin", () =>
 			runTreefmtWithStdin(ctx),
 		),
