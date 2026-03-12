@@ -156,13 +156,17 @@ export async function readConfig(ctx: vscode.ExtensionContext) {
 }
 
 function showDiagnostic(document: vscode.TextDocument, message: string) {
-	const diagnostic = new vscode.Diagnostic(
-		new vscode.Range(0, 0, 0, 1),
-		message,
-		vscode.DiagnosticSeverity.Warning,
-	);
-	const collection = vscode.languages.createDiagnosticCollection("treefmt");
-	collection.set(document.uri, [diagnostic]);
+	// FIXME: diagnostics are not cleared up correctly when the error goes away, see the issue.
+	// https://github.com/isbecker/treefmt-vscode/issues/26
+	// Until this is fixed, disable usage of diagnostics altogether.
+	return
+	// const diagnostic = new vscode.Diagnostic(
+	// 	new vscode.Range(0, 0, 0, 1),
+	// 	message,
+	// 	vscode.DiagnosticSeverity.Warning,
+	// );
+	// const collection = vscode.languages.createDiagnosticCollection("treefmt");
+	// collection.set(document.uri, [diagnostic]);
 }
 
 export async function getFormattedTextFromTreefmt(
